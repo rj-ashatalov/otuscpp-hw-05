@@ -1,22 +1,116 @@
 #pragma once
 #include <sstream>
+#include <list>
+#include <vector>
+#include <iterator>
+
+struct _char_print_tag {};
+struct _short_print_tag {};
+struct _int_print_tag{};
+struct _long_long_print_tag{};
+struct _string_print_tag{};
+struct _iterable_print_tag{};
+struct _default_print_tag{};
+
+template <class T>
+struct _print_traits {
+    using category = _default_print_tag;
+};
+
+template <>
+struct _print_traits<char> {
+    using category = _char_print_tag;
+};
+
+template <>
+struct _print_traits<short> {
+    using category = _short_print_tag;
+};
+
+template <>
+struct _print_traits<int> {
+    using category = _int_print_tag;
+};
+
+template <>
+struct _print_traits<long long int> {
+    using category = _long_long_print_tag;
+};
+
+template <>
+struct _print_traits<std::string> {
+    using category = _string_print_tag;
+};
+
+template <class T>
+struct _print_traits<std::vector<T>> {
+    using category = _iterable_print_tag;
+};
+
+template <class T>
+struct _print_traits<std::list<T>> {
+    using category = _iterable_print_tag;
+};
+
+///
 
 template<class T>
-std::string toString(const T& src)
+std::string toStringInternal(T&& src, _default_print_tag)
 {
-    std::stringstream output;
+    return "unknown type";
+}
+
+template<class T>
+std::string toStringInternal(T&& src, _char_print_tag)
+{
     //todo
+    return "";
+}
+
+template<class T>
+std::string toStringInternal(T&& src, _short_print_tag)
+{
+    //todo
+    return "";
+}
+
+template<class T>
+std::string toStringInternal(T&& src, _int_print_tag)
+{
+    //todo
+    return "";
+}
+
+template<class T>
+std::string toStringInternal(T&& src, _long_long_print_tag)
+{
+    //todo
+    return "";
+}
+
+template<class T>
+std::string toStringInternal(T&& src, _string_print_tag)
+{
+    //todo
+    return "";
+}
+
+template<class T>
+std::string toStringInternal(T&& src, _iterable_print_tag)
+{
+    if (src.size() <= 0) {
+        return "";
+    }
+
+    std::stringstream output;
+    std::copy(src.begin(), std::prev(src.end()), std::ostream_iterator<decltype(src.begin())>(output, "."));
+    output << src.back();
     return output.str();
 }
 
-/*
-std::string toString(const IpPool& pool)
+
+template<class T>
+std::string toString(T&& src)
 {
-    std::stringstream output;
-    for(const auto& ip : pool)
-    {
-        std::copy(ip.begin(), std::prev(ip.end()),std::ostream_iterator<int>(output, "."));
-        output << ip.back() << std::endl;
-    }
-    return output.str();
-}*/
+    return toStringInternal(std::forward<T>(src), _print_traits<T>::category());
+}
