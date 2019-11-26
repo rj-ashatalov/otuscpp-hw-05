@@ -42,13 +42,13 @@ struct _print_traits<std::string> {
     using category = _string_print_tag;
 };
 
-template <class T>
-struct _print_traits<std::vector<T>> {
+template <>
+struct _print_traits<std::vector> {
     using category = _iterable_print_tag;
 };
 
-template <class T>
-struct _print_traits<std::list<T>> {
+template <>
+struct _print_traits<std::list> {
     using category = _iterable_print_tag;
 };
 
@@ -112,5 +112,5 @@ std::string toStringInternal(T&& src, _iterable_print_tag)
 template<class T>
 std::string toString(T&& src)
 {
-    return toStringInternal(std::forward<T>(src), _print_traits<T>::category());
+    return toStringInternal(std::forward<T>(src), typename _print_traits<T>::category());
 }
