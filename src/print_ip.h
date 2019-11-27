@@ -42,13 +42,13 @@ struct _print_traits<std::string> {
     using category = _string_print_tag;
 };
 
-template <>
-struct _print_traits<std::vector> {
+template <class T, class U>
+struct _print_traits<std::vector<T, U>> {
     using category = _iterable_print_tag;
 };
 
-template <>
-struct _print_traits<std::list> {
+template <class T, class U>
+struct _print_traits<std::list<T, U>> {
     using category = _iterable_print_tag;
 };
 
@@ -57,7 +57,8 @@ struct _print_traits<std::list> {
 template<class T>
 std::string toStringInternal(T&& src, _default_print_tag)
 {
-    return "unknown type";
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return "incompatible type";
 }
 
 template<class T>
@@ -91,8 +92,7 @@ std::string toStringInternal(T&& src, _long_long_print_tag)
 template<class T>
 std::string toStringInternal(T&& src, _string_print_tag)
 {
-    //todo
-    return "";
+    return src;
 }
 
 template<class T>
@@ -103,7 +103,7 @@ std::string toStringInternal(T&& src, _iterable_print_tag)
     }
 
     std::stringstream output;
-    std::copy(src.begin(), std::prev(src.end()), std::ostream_iterator<decltype(src.begin())>(output, "."));
+    std::copy(src.begin(), std::prev(src.end()), std::ostream_iterator<typename std::remove_reference_t<T>::value_type>(output, "."));
     output << src.back();
     return output.str();
 }
@@ -112,5 +112,5 @@ std::string toStringInternal(T&& src, _iterable_print_tag)
 template<class T>
 std::string toString(T&& src)
 {
-    return toStringInternal(std::forward<T>(src), typename _print_traits<T>::category());
+    return toStringInternal(std::forward<T>(src), typename _print_traits<typename std::remove_reference_t<T>>::category());
 }

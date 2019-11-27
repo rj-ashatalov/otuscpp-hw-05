@@ -4,6 +4,10 @@
 int main(int, char const *[])
 {
     //todo
+    int intIP = 1234;
+    std::cout<<toString(intIP)<<std::endl;
+
+    std::cout<<toString(std::string{"192.168.1.1"})<<std::endl;
 
     std::list testList{1, 2, 3, 4};
     std::cout<<toString(testList)<<std::endl;
