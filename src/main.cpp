@@ -4,6 +4,9 @@
 int main(int, char const *[])
 {
     //todo
+    char charIP = -1;
+    std::cout<<toString(charIP)<<std::endl;
+
     int intIP = 1234;
     std::cout<<toString(intIP)<<std::endl;
 

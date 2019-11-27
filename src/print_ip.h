@@ -64,8 +64,7 @@ std::string toStringInternal(T&& src, _default_print_tag)
 template<class T>
 std::string toStringInternal(T&& src, _char_print_tag)
 {
-    //todo
-    return "";
+    return std::to_string(static_cast<unsigned char>(src));
 }
 
 template<class T>
