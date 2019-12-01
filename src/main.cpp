@@ -7,8 +7,11 @@ int main(int, char const *[])
     char charIP = -1;
     std::cout<<toString(charIP)<<std::endl;
 
-    int intIP = 1234;
-    std::cout<<toString(intIP)<<std::endl;
+    std::cout<<toString(static_cast<short>(0))<<std::endl;
+
+    std::cout<<toString(static_cast<int>(2130706433))<<std::endl;
+
+    std::cout<<toString(8875824491850138409LL)<<std::endl;
 
     std::cout<<toString(std::string{"192.168.1.1"})<<std::endl;
 

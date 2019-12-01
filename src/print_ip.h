@@ -12,6 +12,9 @@ struct _string_print_tag{};
 struct _iterable_print_tag{};
 struct _default_print_tag{};
 
+template<class T>
+std::string toString(T&& src);
+
 template <class T>
 struct _print_traits {
     using category = _default_print_tag;
@@ -70,22 +73,19 @@ std::string toStringInternal(T&& src, _char_print_tag)
 template<class T>
 std::string toStringInternal(T&& src, _short_print_tag)
 {
-    //todo
-    return "";
+    return toString(static_cast<char>(src>>8)) + "." + toString(static_cast<char>((src<<8)>>8));
 }
 
 template<class T>
 std::string toStringInternal(T&& src, _int_print_tag)
 {
-    //todo
-    return "";
+    return toString(static_cast<short>(src>>16)) + "." + toString(static_cast<short>((src<<16)>>16));
 }
 
 template<class T>
 std::string toStringInternal(T&& src, _long_long_print_tag)
 {
-    //todo
-    return "";
+    return toString(static_cast<int>(src>>32)) + "." + toString(static_cast<int>((src<<32)>>32));
 }
 
 template<class T>
