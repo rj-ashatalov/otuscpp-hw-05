@@ -58,7 +58,7 @@ struct _print_traits<std::list<T, U>> {
 ///
 
 template<class T>
-std::string toStringInternal(T&& src, _default_print_tag)
+std::string toStringInternal(T&&, _default_print_tag)
 {
     std::cout << __PRETTY_FUNCTION__ << std::endl;
     return "incompatible type";
@@ -91,7 +91,7 @@ std::string toStringInternal(T&& src, _long_long_print_tag)
 template<class T>
 std::string toStringInternal(T&& src, _string_print_tag)
 {
-    return src;
+    return std::forward<T>(src);
 }
 
 template<class T>
