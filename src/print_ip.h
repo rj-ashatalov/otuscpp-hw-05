@@ -3,7 +3,7 @@
 #include <list>
 #include <vector>
 #include <iterator>
-/*#include <tuple>
+#include <tuple>
 
 ///
 template<class ...T>
@@ -17,19 +17,19 @@ struct is_same_all<T> : std::true_type
 };
 
 template<class T, class ...TArgs>
-struct is_same_all<T, T, TArgs...> : std::true_type
+struct is_same_all<T, T, TArgs...> : is_same_all<T, TArgs...>
 {
 };
 
 template<class T, class U, class ...TArgs>
-struct is_same_all<T, U, TArgs...> : is_same_all<T, TArgs...>
+struct is_same_all<T, U, TArgs...> : std::false_type
 {
 };
 
 //template<class ...TArgs>
 //auto is_same_all_v = is_same_all<TArgs...>::value;
 ///
-*/
+
 
 struct _char_print_tag {};
 struct _short_print_tag {};
@@ -37,8 +37,8 @@ struct _int_print_tag{};
 struct _long_long_print_tag{};
 struct _string_print_tag{};
 struct _iterable_print_tag{};
-struct _default_print_tag{};
-//struct _tuple_print_tag{};
+//struct _default_print_tag{};
+struct _tuple_print_tag{};
 
 template<class T>
 std::string toString(T&& src);
@@ -78,19 +78,24 @@ struct _print_traits<std::vector<T, U>> {
     using category = _iterable_print_tag;
 };
 
-//template <class ...Args>
-//struct _print_traits<std::tuple<Args...>> {
-//    using category = std::enable_if_t<is_same_all<Args...>::value, _tuple_print_tag>;
-//};
+template <class T, class U>
+struct _print_traits<std::list<T, U>> {
+    using category = _iterable_print_tag;
+};
+
+template <class ...Args>
+struct _print_traits<std::tuple<Args...>> {
+    using category = std::enable_if_t<is_same_all<Args...>::value, _tuple_print_tag>;
+};
 
 ///
 
-template<class T>
-std::string toStringInternal(T&&, _default_print_tag)
-{
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-    return "incompatible type";
-}
+//template<class T>
+//std::string toStringInternal(T&&, _default_print_tag)
+//{
+//    std::cout << __PRETTY_FUNCTION__ << std::endl;
+//    return "incompatible type";
+//}
 
 template<class T>
 std::string toStringInternal(T&& src, _char_print_tag)
@@ -115,7 +120,7 @@ std::string toStringInternal(T&& src, _long_long_print_tag)
 {
     return toString(static_cast<int>(src>>32)) + "." + toString(static_cast<int>((src<<32)>>32));
 }
-/*
+
 template<size_t TIndex = 0, class ...Args>
 std::string toStringInternal(std::tuple<Args...>&& src, _tuple_print_tag tag)
 {
@@ -131,7 +136,7 @@ std::string toStringInternal(std::tuple<Args...>&& src, _tuple_print_tag tag)
         return toString(std::get<TIndex>(src)) + "." + toStringInternal<TIndex + 1u>(std::forward<std::tuple<Args...>>(src), tag);
     }
 }
-*/
+
 template<class T>
 std::string toStringInternal(T&& src, _string_print_tag)
 {
