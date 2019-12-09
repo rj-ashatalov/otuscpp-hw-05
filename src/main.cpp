@@ -5,6 +5,7 @@ int main(int, char const *[])
 {
     //todo
     char charIP = -1;
+
     std::cout<<toString(charIP)<<std::endl;
 
     std::cout<<toString(static_cast<short>(0))<<std::endl;
@@ -22,6 +23,6 @@ int main(int, char const *[])
     std::cout<<toString(testVector)<<std::endl;
 
 //    std::cout<<toString(std::make_tuple(100, std::string{"200"}, 300, 400))<<std::endl;
-    std::cout<<toString(std::make_tuple(100, 200, 300, 400))<<std::endl;
+    std::cout<<toString(std::make_tuple(static_cast<char>(50), static_cast<char>(100), static_cast<char>(200)))<<std::endl;
     return 0;
 }

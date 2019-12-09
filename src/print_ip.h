@@ -5,7 +5,6 @@
 #include <iterator>
 #include <tuple>
 
-///
 template<class ...T>
 struct is_same_all
 {
@@ -26,18 +25,12 @@ struct is_same_all<T, U, TArgs...> : std::false_type
 {
 };
 
-//template<class ...TArgs>
-//auto is_same_all_v = is_same_all<TArgs...>::value;
-///
-
-
 struct _char_print_tag {};
 struct _short_print_tag {};
 struct _int_print_tag{};
 struct _long_long_print_tag{};
 struct _string_print_tag{};
 struct _iterable_print_tag{};
-//struct _default_print_tag{};
 struct _tuple_print_tag{};
 
 template<class T>
@@ -45,7 +38,6 @@ std::string toString(T&& src);
 
 template <class T>
 struct _print_traits {
-//    using category = _default_print_tag;
 };
 
 template <>
@@ -88,14 +80,6 @@ struct _print_traits<std::tuple<Args...>> {
     using category = std::enable_if_t<is_same_all<Args...>::value, _tuple_print_tag>;
 };
 
-///
-
-//template<class T>
-//std::string toStringInternal(T&&, _default_print_tag)
-//{
-//    std::cout << __PRETTY_FUNCTION__ << std::endl;
-//    return "incompatible type";
-//}
 
 template<class T>
 std::string toStringInternal(T&& src, _char_print_tag)
@@ -124,9 +108,6 @@ std::string toStringInternal(T&& src, _long_long_print_tag)
 template<size_t TIndex = 0, class ...Args>
 std::string toStringInternal(std::tuple<Args...>&& src, _tuple_print_tag tag)
 {
-//    std::stringstream output;
-//    std::apply([&](auto ...item){(..., output.operator<<(toString(item)).operator<<("."));}, src);
-//    return output.str();
     if constexpr ((TIndex + 1) >= sizeof...(Args))
     {
         return toString(std::get<TIndex>(src));

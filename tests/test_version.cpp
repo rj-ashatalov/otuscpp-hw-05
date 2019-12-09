@@ -29,6 +29,8 @@ BOOST_AUTO_TEST_CASE(test_solution)
 
     std::vector testVector{10, 20, 30, 40};
     BOOST_CHECK(toString(testVector) == "10.20.30.40");
+
+    BOOST_CHECK(toString(std::make_tuple(static_cast<char>(50), static_cast<char>(100), static_cast<char>(200))) == "50.100.200");
 }
 
 BOOST_AUTO_TEST_SUITE_END()
