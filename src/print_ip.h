@@ -124,6 +124,7 @@ std::string toStringInternal(T&& src, _string_print_tag)
     return std::forward<T>(src);
 }
 
+//! Join containers
 template<class T>
 std::string toStringInternal(T&& src, _iterable_print_tag)
 {
@@ -137,7 +138,7 @@ std::string toStringInternal(T&& src, _iterable_print_tag)
     return output.str();
 }
 
-
+//! Entry point
 template<class T>
 std::string toString(T&& src)
 {

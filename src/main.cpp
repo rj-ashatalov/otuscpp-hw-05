@@ -1,6 +1,7 @@
 #include <iostream>
 #include "print_ip.h"
 
+//! Main app funtion
 int main(int, char const *[])
 {
     //todo
